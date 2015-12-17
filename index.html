@@ -25,7 +25,6 @@
         </div>
         <div class='row'>
           <div class='col-md-4'>
-            <h2>&nbsp;</h2>
             <h5 class='text-center'>LESS Palette</h5>
             <div id='editor-mirror'></div>
             <div class='box box-default'>
@@ -42,6 +41,13 @@
               <tbody></tbody>
             </table>
           </div>
+          <div class='col-md-4'>
+            <div class='relative'>
+              <canvas id='canvas-input'></canvas>
+            </div>
+          </div>
+        </div><!-- row -->
+      </div><!-- container -->
     </section>
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
@@ -118,9 +124,18 @@
       }
             
       $(document).ready(function(evt) { 
+        // - Size canvas ---
+        
+        var $inputCanvas = $('#canvas-input');
+        $.Velocity.hook($inputCanvas, 'scaleX', '0.8');
+        $.Velocity.hook($inputCanvas, 'scaleY', '0.8');
+        
+        var $relative = $('.relative');
+        $relative.height($relative.width() * 0.75);
+      
         // - Initialize editor ---
         
-        editor = CodeMirror($('#editor-mirror').get(0), {
+        var editor = CodeMirror($('#editor-mirror').get(0), {
           lineNumbers: true
           // lineNumberFormatter: function(lineNo){
           //   var hex = lineNo.toString(16).toUpperCase();
@@ -157,6 +172,13 @@
           try {
             var paletteUser = parseInput(src); // unsorted map from LESS variable name, to RGB triplet
             console.log(paletteUser);
+            
+            $inputCanvas.delay(500)
+              /* Use Velocity to animate the element's top property over a duration of 2000ms. */
+              // .velocity({ top: "0%", opacity: "100%" }, 1500);
+              /* Use a standard jQuery method to fade the element out once Velocity is done animating top. */
+              // .fadeOut(1000);
+              .velocity({ scaleX: 1, scaleY: 1 }, { duration: 2500 });
           }
           catch(e){
             // console.log(e);
