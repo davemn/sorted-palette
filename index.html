@@ -92,10 +92,22 @@
           
           colorHex = paletteEntry[1];
           
+          if(colorHex.search(/^[A-Fa-f0-9]{3}(?:[A-Fa-f0-9]{3})?$/) === -1){
+            err.push(new InputError(i+1, 'Color must be given as 3 or 6-digit hexadecimal.'));
+            continue;
+          }
+          
           colorTriplet = [];
-          colorTriplet.push(parseInt(colorHex.substring(0,2), 16));
-          colorTriplet.push(parseInt(colorHex.substring(2,4), 16));
-          colorTriplet.push(parseInt(colorHex.substring(4,6), 16));
+          if(colorHex.length === 3){
+            colorTriplet.push(parseInt(colorHex.charAt(0) + colorHex.charAt(0), 16));
+            colorTriplet.push(parseInt(colorHex.charAt(1) + colorHex.charAt(1), 16));
+            colorTriplet.push(parseInt(colorHex.charAt(2) + colorHex.charAt(2), 16));
+          }
+          else if(colorHex.length === 6){
+            colorTriplet.push(parseInt(colorHex.substring(0,2), 16));
+            colorTriplet.push(parseInt(colorHex.substring(2,4), 16));
+            colorTriplet.push(parseInt(colorHex.substring(4,6), 16));
+          }
           
           palette[colorName] = colorTriplet;
         }
