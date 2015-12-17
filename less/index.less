@@ -1,0 +1,41 @@
+@import "../bower_components/bootstrap/less/bootstrap.less";
+@import "../bower_components/font-awesome/less/font-awesome.less";
+@import (inline) "../bower_components/codemirror/lib/codemirror.css";
+
+/* ================================================================ */
+/* Box Model                                                        */
+/* - Any style that affects spacing of elements. Includes flags     */
+/* - like absolute positioning, hidden overflow.                    */
+/* ================================================================ */
+@import "../bower_components/shared-styles/box-model.less";
+
+button[type="submit"].btn-block {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: @grid-gutter-width;
+}
+
+/* ================================================================ */
+/* Text                                                             */
+/* ================================================================ */
+@import "../bower_components/shared-styles/text.less";
+
+
+
+/* ================================================================ */
+/* Theme                                                            */
+/* ================================================================ */
+@import "../bower_components/shared-styles/theme.less";
+
+.sort-error {
+  background: @naples-yellow;
+}
+
+#editor-mirror {
+  border: 1px solid @white-smoke-luma;
+}
+
+table#sort-output tbody tr:hover {
+  background-color: @white-smoke-luma;
+}
