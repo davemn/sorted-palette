@@ -75,10 +75,18 @@
           $canvas: $('#canvas-input')
         });
         
-        canvas.drawColorGrid(
-          canvas.calendar.month[0].days, 
-          canvas.calendar.origin.x() + canvas.calendar.month[0].x(), 
-          canvas.calendar.origin.y() + canvas.calendar.month[0].y());
+        // ---
+        
+        var palette = {
+          origin: { x: function(){ return 8.5; }, y: function(){ return 8.5; } }
+        };
+        
+        editor.afterSort(function(swatches){
+          canvas.drawSwatchGrid(
+            swatches,
+            palette.origin.x(), 
+            palette.origin.y());
+        });
       });
     </script>
   </body>

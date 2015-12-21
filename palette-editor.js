@@ -68,6 +68,8 @@
     this.$editor     = opts.$editor;
     this.$errorTable = opts.$errorTable;
     this.$sortButton = opts.$sortButton;
+    
+    this.callbacksAfterSort = [];
       
     // - Initialize editor ---
     
@@ -83,13 +85,13 @@
     
     this.curError = -1;
     
-    this.$errorTable.children('tbody').on('mouseenter', 'tr', {outerThis: this}, this.onErrorTableRowMouseEnter);
-    this.$errorTable.children('tbody').on('mouseleave', 'tr', {outerThis: this}, this.onErrorTableRowMouseLeave);
+    this.$errorTable.children('tbody').on('mouseenter', 'tr', {outerThis: this}, this._onErrorTableRowMouseEnter);
+    this.$errorTable.children('tbody').on('mouseleave', 'tr', {outerThis: this}, this._onErrorTableRowMouseLeave);
     
-    this.$sortButton.click({outerThis: this}, this.onSortButtonClick);
+    this.$sortButton.click({outerThis: this}, this._onSortButtonClick);
   };
   
-  exports.instance.prototype.onErrorTableRowMouseEnter = function(evt){
+  exports.instance.prototype._onErrorTableRowMouseEnter = function(evt){
     var outerThis = evt.data.outerThis;
     
     var lineNo = parseInt($(this).children('th').text(), 10);
@@ -100,14 +102,14 @@
     outerThis.editor.addLineClass(outerThis.curError, 'background', 'sort-error');
   };
   
-  exports.instance.prototype.onErrorTableRowMouseLeave = function(evt){
+  exports.instance.prototype._onErrorTableRowMouseLeave = function(evt){
     var outerThis = evt.data.outerThis;
     
     outerThis.editor.removeLineClass(outerThis.curError, 'background');
     outerThis.curError = -1;
   };
   
-  exports.instance.prototype.onSortButtonClick = function(evt){
+  exports.instance.prototype._onSortButtonClick = function(evt){
     var outerThis = evt.data.outerThis;
     evt.preventDefault();
     
@@ -117,7 +119,11 @@
     
     try {
       var paletteUser = parseInput(src); // unsorted map from LESS variable name, to RGB triplet
-      console.log(paletteUser);
+      // TODO sort by brightness!
+      
+      outerThis.callbacksAfterSort.forEach(function(cb){
+        cb(paletteUser);
+      });
     }
     catch(e){
       // console.log(e);
@@ -130,6 +136,10 @@
         outerThis.$errorTable.children('tbody').append(row);
       }
     }
+  };
+  
+  exports.instance.prototype.afterSort = function(callback){
+    this.callbacksAfterSort.push(callback);
   };
   
 })(jQuery, CodeMirror, window.PaletteEditor = {});

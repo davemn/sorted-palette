@@ -12,23 +12,8 @@
     
     this.relMousePos = {x:0, y:0};
     
-    this.calendar = {
-      dayPadding: 8,
-      daySize: 20,
-      origin: { x: function(){ return 8.5; }, y: function(){ return 8.5; } },
-      month: [
-        {
-          x: function(){ return 0; },
-          y: function(){ return 0; },
-          days: 30
-        },
-        {
-          x: function(){ return (this.calendar.daySize*7+this.calendar.dayPadding*6)+(this.calendar.dayPadding*2); },
-          y: function(){ return 0; },
-          days: 31
-        }
-      ]
-    };
+    this.swatchSize = 20;
+    this.swatchPadding = 8;
     
     // - Size & setup drawing environment ---
         
@@ -37,16 +22,17 @@
     
     // $canvas.height($canvas.width() * 0.75);
     // Don't set canvas size using CSS properties! Will result in pixel scaling instead of viewport scaling.
+    // http://stackoverflow.com/a/331462
     this.canvas.width = $canvas.parent('.canvas-container').width();
     this.canvas.height = this.canvas.width * 0.75;
     
-    $canvas.mousemove({outerThis:this, canvas:this.canvas, ctx:this.ctx}, this.updateMousePos);
+    $canvas.mousemove({outerThis:this, canvas:this.canvas, ctx:this.ctx}, this._updateMousePos);
         
     // - Draw dynamic elements ---
     // requestAnimationFrame(updateCanvas);
   };
   
-  exports.instance.prototype.drawColorGrid = function(days, x, y){
+  exports.instance.prototype.drawSwatchGrid = function(swatches, x, y){
     // ctx.fillStyle = 'green';
     // ctx.strokeStyle = 'green';
     // ctx.lineWidth
@@ -54,26 +40,35 @@
     // ctx.lineWidth = 1;
     // ctx.strokeRect(8.5, 8.5, 20,20);
     
+    this.ctx.clearRect(0,0, this.canvas.width,this.canvas.height);
+    
     this.ctx.save();
     this.ctx.lineWidth = 1;
     
     var curPos = {x: x, y: y};
     
-    for(var dayI=0; dayI < days; dayI++){
-      if(dayI !== 0 && (dayI%7) === 0){ // start new row
+    var swatchI=0;
+    for(var swatch in swatches){
+      if(swatchI !== 0 && (swatchI%7) === 0){ // start new row
         curPos.x = x;
-        curPos.y += this.calendar.daySize + this.calendar.dayPadding;
+        curPos.y += this.swatchSize + this.swatchPadding;
       }
     
-      this.ctx.strokeRect(curPos.x, curPos.y, this.calendar.daySize, this.calendar.daySize);
+      this.ctx.fillStyle = 'rgb('+swatches[swatch][0]+','+swatches[swatch][1]+','+swatches[swatch][2]+')';
+      this.ctx.fillRect(curPos.x, curPos.y, this.swatchSize, this.swatchSize);
       
-      curPos.x += this.calendar.daySize + this.calendar.dayPadding;
+      this.ctx.strokeRect(curPos.x, curPos.y, this.swatchSize, this.swatchSize);
+      
+      curPos.x += this.swatchSize + this.swatchPadding;
+     
+      swatchI++;
     }
+    
     this.ctx.restore();
   };
   
   // Ala http://stackoverflow.com/a/17130415
-  exports.instance.prototype.updateMousePos = function(evt){
+  exports.instance.prototype._updateMousePos = function(evt){
     // evt.pageX, evt.pageY // use instead of client[X|Y] or offset[X|Y]!
     // jQuery normalizes page[X|Y], but we need viewport-relative 
     var outerThis = evt.data.outerThis;
@@ -86,31 +81,4 @@
     outerThis.relMousePos.x = evt.clientX - rect.left;
     outerThis.relMousePos.y = evt.clientY - rect.top;
   };
-  
-  // $(window).load(function(){
-  //   
-  // });
-  // 
-  // $(document).ready(function(evt){
-  // 
-  // });
-  
 })(jQuery, window.PaletteCanvas = {});
-
-// ---
-
-// - Size canvas ---
-
-// var $inputCanvas = $('#canvas-input');
-// $.Velocity.hook($inputCanvas, 'scaleX', '0.8');
-// $.Velocity.hook($inputCanvas, 'scaleY', '0.8');
-// 
-// var $relative = $('.relative');
-// $relative.height($relative.width() * 0.75);
-
-// $inputCanvas.delay(500)
-//   /* Use Velocity to animate the element's top property over a duration of 2000ms. */
-//   // .velocity({ top: "0%", opacity: "100%" }, 1500);
-//   /* Use a standard jQuery method to fade the element out once Velocity is done animating top. */
-//   // .fadeOut(1000);
-//   .velocity({ scaleX: 1, scaleY: 1 }, { duration: 2500 });
