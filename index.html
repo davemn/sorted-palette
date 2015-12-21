@@ -41,10 +41,8 @@
               <tbody></tbody>
             </table>
           </div>
-          <div class='col-md-6'>
-            <div class='relative'>
-              <canvas id='canvas-input'></canvas>
-            </div>
+          <div class='col-md-6 canvas-container'>
+            <canvas id='canvas-input' width=360 height=240></canvas>
           </div>
         </div><!-- row -->
       </div><!-- container -->
@@ -57,6 +55,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.js"></script>
     
     <script type="text/javascript" src="palette-editor.js"></script>
+    <script type="text/javascript" src="palette-canvas.js"></script>
     
     <script>
       $(window).load(function() {
@@ -71,6 +70,15 @@
           $errorTable: $('table#sort-output'),
           $sortButton: $('button#sort')
         });
+        
+        var canvas = new PaletteCanvas.instance({
+          $canvas: $('#canvas-input')
+        });
+        
+        canvas.drawColorGrid(
+          canvas.calendar.month[0].days, 
+          canvas.calendar.origin.x() + canvas.calendar.month[0].x(), 
+          canvas.calendar.origin.y() + canvas.calendar.month[0].y());
       });
     </script>
   </body>

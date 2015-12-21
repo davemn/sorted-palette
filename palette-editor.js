@@ -68,16 +68,7 @@
     this.$editor     = opts.$editor;
     this.$errorTable = opts.$errorTable;
     this.$sortButton = opts.$sortButton;
-    
-    // - Size canvas ---
-    
-    // var $inputCanvas = $('#canvas-input');
-    // $.Velocity.hook($inputCanvas, 'scaleX', '0.8');
-    // $.Velocity.hook($inputCanvas, 'scaleY', '0.8');
-    // 
-    // var $relative = $('.relative');
-    // $relative.height($relative.width() * 0.75);
-  
+      
     // - Initialize editor ---
     
     this.editor = CodeMirror(this.$editor.get(0), {
@@ -127,13 +118,6 @@
     try {
       var paletteUser = parseInput(src); // unsorted map from LESS variable name, to RGB triplet
       console.log(paletteUser);
-      
-      // $inputCanvas.delay(500)
-      //   /* Use Velocity to animate the element's top property over a duration of 2000ms. */
-      //   // .velocity({ top: "0%", opacity: "100%" }, 1500);
-      //   /* Use a standard jQuery method to fade the element out once Velocity is done animating top. */
-      //   // .fadeOut(1000);
-      //   .velocity({ scaleX: 1, scaleY: 1 }, { duration: 2500 });
     }
     catch(e){
       // console.log(e);
