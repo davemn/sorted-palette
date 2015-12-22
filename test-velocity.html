@@ -21,6 +21,7 @@
         <div class='row'>
           <div class='col-md-6'>
             <div class='canvas-container'>
+              <p>Some text!</p>
               <canvas id='canvas-input'></canvas>
             </div>
           </div>
@@ -43,38 +44,18 @@
         var canvas = $canvas.get(0);
         var ctx = canvas.getContext('2d');
         
-        // canvas.width = $canvas.parent('.canvas-container').width();
-        // canvas.height = canvas.width * 0.75;
+        var $canvasCnt = $canvas.parent('.canvas-container');
         
-        // .canvas-container {
-        //   height: 240px; // required!
-        // }
-        // 
-        // canvas#canvas-input {
-        //   // width: 320px;
-        //   // height: 240px;
+        $canvasCnt.height($canvasCnt.width()*0.75);
         
-        canvas.width = $canvas.parent('.canvas-container').width();
-        canvas.height = $canvas.parent('.canvas-container').height();
+        canvas.width = $canvasCnt.width();
+        canvas.height = $canvasCnt.height();
         
-        // this.ctx.clearRect(0,0, this.canvas.width,this.canvas.height);
-        // 
-        // this.ctx.save();
-        // this.ctx.lineWidth = 1;
-        // 
-        // var curPos = {x: x, y: y};
-        // 
-        // var swatchI=0;
-        // for(var swatch in swatches){
-        //   if(swatchI !== 0 && (swatchI%7) === 0){ // start new row
-        //     curPos.x = x;
-        //     curPos.y += this.swatchSize + this.swatchPadding;
-        //   }
-        // 
-        //   this.ctx.fillStyle = 'rgb('+swatches[swatch][0]+','+swatches[swatch][1]+','+swatches[swatch][2]+')';
-        //   this.ctx.fillRect(curPos.x, curPos.y, this.swatchSize, this.swatchSize);
+        // ---
         
-        ctx.clearRect(0,0, canvas.width, canvas.height);
+        // ctx.clearRect(0,0, canvas.width, canvas.height);
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0,0, canvas.width, canvas.height);
         
         ctx.lineWidth = 1;
         ctx.strokeStyle ='red';
