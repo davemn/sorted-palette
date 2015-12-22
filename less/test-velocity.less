@@ -1,0 +1,50 @@
+@import "../bower_components/bootstrap/less/bootstrap.less";
+@import "../bower_components/font-awesome/less/font-awesome.less";
+
+/* ================================================================ */
+/* Box Model                                                        */
+/* - Any style that affects spacing of elements. Includes flags     */
+/* - like absolute positioning, hidden overflow.                    */
+/* ================================================================ */
+@import "../bower_components/shared-styles/box-model.less";
+
+body {
+  margin-top: 128px;
+}
+
+.canvas-container {
+  height: 240px; // required!
+}
+
+canvas#canvas-input {
+  // width: 320px;
+  // height: 240px;
+  
+  position: relative;
+  top: -50%; // pct of the height of the container
+  opacity: 0;
+}
+
+/* ================================================================ */
+/* Text                                                             */
+/* ================================================================ */
+@import "../bower_components/shared-styles/text.less";
+
+
+
+/* ================================================================ */
+/* Theme                                                            */
+/* ================================================================ */
+@import "../bower_components/shared-styles/theme.less";
+
+.canvas-container {
+  border: 1px solid @raw-sienna;
+}
+
+canvas#canvas-input {
+  // border: 1px solid @white-smoke-luma;
+  border: 1px solid @lime-green;
+  
+  // display: none;
+  // transform: scale(0.8,0.8);
+}
