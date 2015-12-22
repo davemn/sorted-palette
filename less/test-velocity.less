@@ -26,6 +26,13 @@ canvas#canvas-input {
   opacity: 0;
 }
 
+canvas#canvas-output {
+  position: absolute;
+  top: 0%;
+  left: 50%; // pct of the width of the container
+  opacity: 0;
+}
+
 /* ================================================================ */
 /* Text                                                             */
 /* ================================================================ */
@@ -48,4 +55,8 @@ canvas#canvas-input {
   
   // display: none;
   // transform: scale(0.8,0.8);
+}
+
+canvas#canvas-output {
+  border: 1px solid @cerulean-blue;
 }

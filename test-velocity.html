@@ -23,7 +23,9 @@
             <div class='canvas-container'>
               <p>Some text!</p>
               <canvas id='canvas-input'></canvas>
+              <canvas id='canvas-output'></canvas>
             </div>
+            <button class='btn btn-default btn-block' id='start'>Start Animation</button>
           </div>
         </div><!-- row -->
       </div><!-- container -->
@@ -39,15 +41,10 @@
       
       // ---
       
-      $(document).ready(function(evt) {
-        var $canvas = $('#canvas-input');
-        var canvas = $canvas.get(0);
+      function drawCanvasInput(canvas){
+        var $canvasCnt = $(canvas).parent('.canvas-container');
         var ctx = canvas.getContext('2d');
-        
-        var $canvasCnt = $canvas.parent('.canvas-container');
-        
-        $canvasCnt.height($canvasCnt.width()*0.75);
-        
+      
         canvas.width = $canvasCnt.width();
         canvas.height = $canvasCnt.height();
         
@@ -61,14 +58,76 @@
         ctx.strokeStyle ='red';
         
         ctx.strokeRect(8.5,8.5, 20,20);
+      }
+      
+      function drawCanvasOutput(canvas){
+        var $canvasCnt = $(canvas).parent('.canvas-container');
+        var ctx = canvas.getContext('2d');
+      
+        canvas.width = $canvasCnt.width();
+        canvas.height = $canvasCnt.height();
+        
+        // ---
+        
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+        // ctx.fillStyle = 'white';
+        // ctx.fillRect(0,0, canvas.width, canvas.height);
+        
+        ctx.lineWidth = 1;
+        ctx.strokeStyle ='blue';
+        
+        ctx.strokeRect(16.5,16.5, 20,20);
+      }
+      
+      $(document).ready(function(evt) {
+        var $canvasInput = $('#canvas-input');
+        var $canvasOutput = $('#canvas-output');
+        
+        var $canvasCnt = $('.canvas-container');
+        $canvasCnt.height($canvasCnt.width()*0.75);
+        
+        drawCanvasInput($canvasInput.get(0));
+        drawCanvasOutput($canvasOutput.get(0));
         
         // - tests! ---
         
         // $canvas.animate({ opacity:0 }, 1000)
         //   .animate({ opacity:1 }, 1000);
         
-        $canvas.velocity({ opacity: 1, top: '0%' }, 750);
-          // .velocity('reverse');
+        // $canvas.velocity({ opacity: 1, top: '0%' }, 750);
+        
+        // $canvas.velocity(
+        //   { opacity: 1, top: '0%' }, 
+        //   {
+        //     delay: 1000,
+        //     duration: 750,
+        //     loop: 5
+        //   }
+        // );
+        
+        $canvasInput.velocity(
+          { opacity: 1, top: '0%' },
+          {
+            duration: 1000,
+            queue: 'slider'
+          }
+        );
+        
+        $canvasOutput.velocity(
+          { opacity: 1, left: '0%' },
+          {
+            delay: 500,
+            duration: 500,
+            queue: 'slider'
+          }
+        );
+        
+        $('button#start').click(function(evt){
+          $canvasInput.dequeue('slider');
+          $canvasOutput.dequeue('slider');
+          
+          $(this).prop('disabled', true);
+        });
       });
     </script>
   </body>
