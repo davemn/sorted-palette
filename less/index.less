@@ -16,6 +16,18 @@ button[type="submit"].btn-block {
   margin-top: @grid-gutter-width;
 }
 
+.canvas-container {
+  // height: 240px; // required!
+  position: relative;
+}
+
+canvas#canvas-input {
+  position: absolute;
+  top: -100%; // pct of the height of the container
+  z-index: 10; // overlay Codemirror editor
+  opacity: 0;
+}
+
 /* ================================================================ */
 /* Text                                                             */
 /* ================================================================ */

@@ -7,6 +7,8 @@
   //   palette.calendar.origin.x() + palette.calendar.month[0].x(), 
   //   palette.calendar.origin.y() + palette.calendar.month[0].y());
   
+  exports.ANIMATION_SHOW = 'show';
+  
   exports.instance = function(opts){
     var $canvas = opts.$canvas;
     
@@ -16,15 +18,34 @@
     this.swatchPadding = 8;
     
     // - Size & setup drawing environment ---
-        
     this.canvas = $canvas.get(0);
     this.ctx = this.canvas.getContext('2d');
     
-    // $canvas.height($canvas.width() * 0.75);
+  // <<<
+  //   // $canvas.height($canvas.width() * 0.75);
+  //   // Don't set canvas size using CSS properties! Will result in pixel scaling instead of viewport scaling.
+  //   // http://stackoverflow.com/a/331462
+  //   this.canvas.width = $canvas.parent('.canvas-container').width();
+  //   this.canvas.height = this.canvas.width * 0.75;
+  // ---
+    var $canvasCnt = $(this.canvas).parent('.canvas-container');
+    $canvasCnt.height($canvasCnt.width()*0.75);
+    
     // Don't set canvas size using CSS properties! Will result in pixel scaling instead of viewport scaling.
     // http://stackoverflow.com/a/331462
-    this.canvas.width = $canvas.parent('.canvas-container').width();
-    this.canvas.height = this.canvas.width * 0.75;
+    this.canvas.width = $canvasCnt.width();
+    this.canvas.height = $canvasCnt.height();
+  // >>>
+  
+    // - Create animation queues (triggered with play method) ---
+  
+    $(this.canvas).velocity(
+      { opacity: 1, top: '0%' },
+      {
+        duration: 1000,
+        queue: 'show'
+      }
+    );
     
     $canvas.mousemove({outerThis:this, canvas:this.canvas, ctx:this.ctx}, this._updateMousePos);
         
@@ -44,6 +65,9 @@
     
     this.ctx.save();
     this.ctx.lineWidth = 1;
+    
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(0,0, this.canvas.width,this.canvas.height);
     
     var curPos = {x: x, y: y};
     
@@ -65,6 +89,10 @@
     }
     
     this.ctx.restore();
+  };
+  
+  exports.instance.prototype.play = function(animationName){
+    $(this.canvas).dequeue(animationName);
   };
   
   // Ala http://stackoverflow.com/a/17130415
