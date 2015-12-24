@@ -142,4 +142,12 @@
     this.callbacksAfterSort.push(callback);
   };
   
+  exports.instance.prototype.setAspectRatio = function(ratio){
+    var width = this.$editor.children('.CodeMirror').width();
+    var height = width / ratio;
+    
+    this.editor.setSize(null, height);
+    return {width: width, height: height};
+  };
+  
 })(jQuery, CodeMirror, window.PaletteEditor = {});

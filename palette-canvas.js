@@ -21,21 +21,12 @@
     this.canvas = $canvas.get(0);
     this.ctx = this.canvas.getContext('2d');
     
-  // <<<
-  //   // $canvas.height($canvas.width() * 0.75);
-  //   // Don't set canvas size using CSS properties! Will result in pixel scaling instead of viewport scaling.
-  //   // http://stackoverflow.com/a/331462
-  //   this.canvas.width = $canvas.parent('.canvas-container').width();
-  //   this.canvas.height = this.canvas.width * 0.75;
-  // ---
-    var $canvasCnt = $(this.canvas).parent('.canvas-container');
-    $canvasCnt.height($canvasCnt.width()*0.75);
-    
-    // Don't set canvas size using CSS properties! Will result in pixel scaling instead of viewport scaling.
-    // http://stackoverflow.com/a/331462
-    this.canvas.width = $canvasCnt.width();
-    this.canvas.height = $canvasCnt.height();
-  // >>>
+    if(opts.size){
+      // Don't set canvas size using CSS properties! Will result in pixel scaling instead of viewport scaling.
+      // http://stackoverflow.com/a/331462
+      this.canvas.width  = opts.size.width;
+      this.canvas.height = opts.size.height;
+    }
   
     // - Create animation queues (triggered with play method) ---
   
@@ -43,7 +34,7 @@
       { opacity: 1, top: '0%' },
       {
         duration: 1000,
-        queue: 'show'
+        queue: exports.ANIMATION_SHOW
       }
     );
     

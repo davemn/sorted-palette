@@ -70,9 +70,11 @@
           $errorTable: $('table#sort-output'),
           $sortButton: $('button#sort')
         });
+        var editorSize = editor.setAspectRatio(4/3);
         
         var canvas = new PaletteCanvas.instance({
-          $canvas: $('#canvas-input')
+          $canvas: $('#canvas-input'),
+          size: editorSize
         });
         
         // ---
